@@ -91,7 +91,7 @@ function commitWork (wip) {
 
     const { flags, stateNode } = wip
 
-    let parentNode = wip.return.stateNode
+    let parentNode = getParentNode(wip.return)
     if (flags & Placement && stateNode) {
         parentNode.appendChild(stateNode)
     }
@@ -101,4 +101,15 @@ function commitWork (wip) {
 
     //提交兄弟节点
     commitWork(wip.sibling)
+}
+
+function getParentNode (wip) {
+    let temp = wip
+
+    while(temp){
+        if (temp.stateNode) {
+            return temp.stateNode
+        }
+        temp = temp.return
+    }
 }
