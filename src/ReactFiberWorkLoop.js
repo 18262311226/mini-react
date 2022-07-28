@@ -109,6 +109,10 @@ function commitWork (wip) {
         updateNode(stateNode, wip.alternate.props, wip.props)
     }
 
+    if(wip.deletions){
+        commitDeletions(wip.deletions,stateNode || parentNode)
+    }
+
     //提交子节点
     commitWork(wip.child)
 
@@ -125,4 +129,19 @@ function getParentNode (wip) {
         }
         temp = temp.return
     }
+}
+
+function commitDeletions (deletions, parentNode) {
+    for(let i = 0;i < deletions.length;i++){
+        parentNode.removeChild(deletions[i])
+    }
+}
+
+function getStateNode (fiber) {
+    let tem = fiber
+    while (!tem.stateNode) {
+        tem = tem.child
+    }
+
+    return tem.stateNode
 }
