@@ -23,7 +23,9 @@ export function createFiber (vnode, returnFiber) {
         sibling: null,
         return: returnFiber,
         flags: Placement,
-        index: null
+        index: null,
+        alternate: null, // old fiber
+        memorizedState: null,// functionComponent
     }
 
     let { type } = vnode

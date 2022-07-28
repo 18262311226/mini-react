@@ -25,7 +25,22 @@ export function isUndefined (s) {
   return s === undefined
 }
 
-export function updateNode (node, nextVal) {
+export function updateNode (node, prevVal, nextVal) {
+  Object.keys(prevVal).forEach((k) => {
+    if(k === 'children'){
+      if(isStringOrNumber(nextVal[k])){
+        node.textContent = ""
+      }
+    }else if (k.slice(0, 2) === 'on') {
+      let eventName = k.slice(2).toLowerCase()
+      node.removeEventListener(eventName, prevVal[k])
+    } else {
+      if(!(k in nextVal)){
+        node[k] = ""
+      }
+    }
+  })
+
   Object.keys(nextVal).forEach((k) => {
     if(k === 'children'){
       if(isStringOrNumber(nextVal[k])){

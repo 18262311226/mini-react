@@ -19,7 +19,7 @@ import {
 } from "./scheduler";
 
 import { 
-    Placement 
+    Placement, Update, updateNode 
 } from "./utils";
 
 let wip = null
@@ -103,6 +103,10 @@ function commitWork (wip) {
     let parentNode = getParentNode(wip.return)
     if (flags & Placement && stateNode) {
         parentNode.appendChild(stateNode)
+    }
+
+    if (flags & Update && stateNode) {
+        updateNode(stateNode, wip.alternate.props, wip.props)
     }
 
     //提交子节点
