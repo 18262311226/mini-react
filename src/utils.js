@@ -31,7 +31,10 @@ export function updateNode (node, nextVal) {
       if(isStringOrNumber(nextVal[k])){
         node.textContent = nextVal[k]
       }
-    }else {
+    }else if (k.slice(0, 2) === 'on') {
+      let eventName = k.slice(2).toLowerCase()
+      node.addEventListener(eventName, nextVal[k])
+    } else {
       node[k] = nextVal[k]
     }
   })
